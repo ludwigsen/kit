@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kit / File → Markdown</title>
+  <link rel="stylesheet" href="../../assets/style.css">
+  <link rel="stylesheet" href="./convert.css">
+</head>
+
+<body>
+
+
+
+  <main>
+    <div class="panel">
+      <div class="panel-label">Input</div>
+
+      <div class="drop-zone" id="drop-zone">
+        <i data-lucide="arrow-down" width="18" height="18"></i>
+        <div class="drop-title">Drop files here</div>
+        <div class="drop-sub">or <strong>click to browse</strong></div>
+        <input type="file" id="file-input" multiple accept=".txt,.html,.htm,.csv,.json,.pdf,.docx,.md">
+      </div>
+
+      <div class="progress-bar-wrap" id="progress-wrap">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+
+      <div class="file-queue" id="file-queue"></div>
+
+      <div class="controls">
+        <button class="btn btn-primary" id="convert-btn" disabled>Convert all</button>
+        <button class="btn btn-ghost" id="clear-btn" disabled>Clear</button>
+      </div>
+    </div>
+
+    <!-- Right Panel -->
+    <div class="panel">
+      <div class="output-header">
+        <div class="panel-label">Output</div>
+        <div class="output-meta" id="char-count"></div>
+        <div class="output-actions">
+          <button class="btn btn-ghost" id="copy-btn" disabled>Copy</button>
+          <button class="btn btn-ghost" id="download-btn" disabled>Download .md</button>
+        </div>
+      </div>
+
+      <div class="output-box" id="output-box">
+        <div class="empty-state" id="empty-state">
+          <span class="arrow">←</span>
+          <span>Converted markdown will appear here</span>
+        </div>
+        <div id="output-filename" class="output-filename" style="display:none">
+          <span class="dot"></span>
+          <span id="output-filename-text"></span>
+        </div>
+        <textarea id="output" placeholder="..." style="display:none" spellcheck="false"></textarea>
+      </div>
+    </div>
+  </main>
+
+  <!-- order matters: header/footer load first, then lucide, then tool js file(s) -->
+  <script src="../../assets/hf.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>document.addEventListener('DOMContentLoaded', () => lucide.createIcons());</script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="./convert.js"></script>
+</body>
+
+</html>

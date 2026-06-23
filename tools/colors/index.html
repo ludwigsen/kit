@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Color Tool — Kit</title>
+  <link rel="stylesheet" href="../../assets/style.css">
+  <link rel="stylesheet" href="./colors.css">
+</head>
+<body>
+
+  <header class="header">
+    <div class="shell">
+      <div class="header-inner">
+        <div class="wordmark">
+          Kit<span class="wordmark-accent">.</span>
+          <span class="wordmark-sep">/</span>
+          <span class="wordmark-page">Base64</span>
+        </div>
+        <a class="back-link" href="../../index.html">
+          <i data-lucide="arrow-left" width="13" height="13"></i>
+          All tools
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+
+<div class="page">
+  <div class="grid">
+
+    <!-- LEFT: Picker + converter -->
+    <div>
+      <div class="card">
+        <div class="card-title">Picker</div>
+
+        <div class="swatch-row">
+          <div class="swatch" id="mainSwatch"></div>
+          <div class="swatch-meta">
+            <div class="swatch-hex" id="swatchHex">#5B8AF5</div>
+            <div class="swatch-hsl" id="swatchHsl">hsl(225, 88%, 64%)</div>
+          </div>
+        </div>
+
+        <div class="picker-wrap">
+          <input type="color" id="colorPicker" value="#5b8af5" />
+          <span style="font-size:12px;color:var(--muted)">Native picker</span>
+        </div>
+
+        <hr class="divider" />
+        <div class="card-title">Convert</div>
+
+        <div class="field-row">
+          <span class="field-label">HEX</span>
+          <input class="field-input" id="hexInput" type="text" value="#5b8af5" placeholder="#rrggbb" maxlength="7" spellcheck="false" />
+          <button class="btn-copy" data-copy="hex">Copy</button>
+        </div>
+        <div class="field-row">
+          <span class="field-label">RGB</span>
+          <input class="field-input" id="rgbInput" type="text" placeholder="91, 138, 245" spellcheck="false" />
+          <button class="btn-copy" data-copy="rgb">Copy</button>
+        </div>
+        <div class="field-row">
+          <span class="field-label">HSL</span>
+          <input class="field-input" id="hslInput" type="text" placeholder="225, 88%, 64%" spellcheck="false" />
+          <button class="btn-copy" data-copy="hsl">Copy</button>
+        </div>
+        <div class="field-row">
+          <span class="field-label">CSS</span>
+          <input class="field-input" id="cssInput" type="text" placeholder="hsl(225, 88%, 64%)" spellcheck="false" />
+          <button class="btn-copy" data-copy="css">Copy</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Sliders + contrast -->
+    <div style="display:flex;flex-direction:column;gap:16px;">
+      <div class="card">
+        <div class="card-title">Adjust</div>
+        <div class="slider-group">
+          <div class="slider-row">
+            <span class="field-label">H</span>
+            <input type="range" id="sliderH" min="0" max="360" step="1" value="225" style="background:linear-gradient(to right,#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00)" />
+            <span class="slider-val" id="valH">225</span>
+          </div>
+          <div class="slider-row">
+            <span class="field-label">S</span>
+            <input type="range" id="sliderS" min="0" max="100" step="1" value="88" />
+            <span class="slider-val" id="valS">88</span>
+          </div>
+          <div class="slider-row">
+            <span class="field-label">L</span>
+            <input type="range" id="sliderL" min="0" max="100" step="1" value="64" />
+            <span class="slider-val" id="valL">64</span>
+          </div>
+        </div>
+
+        <hr class="divider" />
+        <div class="card-title">Contrast vs</div>
+        <div class="field-row">
+          <input class="field-input" id="bgInput" type="text" value="#0f1117" placeholder="Background hex" spellcheck="false" />
+          <input type="color" id="bgPicker" value="#0f1117" style="width:36px;height:34px;flex-shrink:0;border:1px solid var(--border-hi);border-radius:var(--radius);background:var(--bg);padding:2px;cursor:pointer;" />
+        </div>
+        <div class="contrast-block">
+          <div class="contrast-preview" id="contrastPreview">Aa</div>
+          <div class="contrast-meta">
+            <span class="contrast-ratio" id="contrastRatio">—</span>
+            <div class="wcag-badges" id="wcagBadges"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tints & Shades — full width -->
+  <div class="card" style="margin-top:16px;">
+    <div class="card-title">Tints &amp; Shades — click to load</div>
+    <div class="scale-row" id="scaleRow"></div>
+    <div class="scale-label" id="scaleLabels"></div>
+  </div>
+
+  <!-- Saved palette — full width -->
+  <div class="card" style="margin-top:16px;">
+    <div class="palette-header">
+      <span class="card-title" style="margin-bottom:0">Saved Colors</span>
+      <button class="btn-save" id="btnSave">+ Save current</button>
+    </div>
+    <div class="palette-grid" id="paletteGrid">
+      <span class="palette-empty" id="paletteEmpty">No saved colors yet.</span>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script type="text/javascript" src="./colors.js"></script>
+</body>
+</html>

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kit</title>
+  <link rel="stylesheet" href="./assets/style.css">
+  <style>
+    /* =====================
+       HUB-ONLY STYLES
+       Anything here is index.html specific.
+       Shared styles live in assets/style.css
+    ===================== */
+
+    /* Search */
+    .search-wrap {
+      flex: 1;
+      max-width: 340px;
+      position: relative;
+    }
+
+    .search-wrap .search-icon {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-sub);
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+    }
+
+    .search-input {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 13px;
+      padding: 7px 36px 7px 32px;
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .search-input::placeholder { color: var(--text-sub); }
+
+    .search-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    .search-shortcut {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text-sub);
+      background: var(--border-soft);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 1px 5px;
+      pointer-events: none;
+    }
+
+    /* Filter pills */
+    .filter-pills {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-left: auto;
+    }
+
+    .pill {
+      font-size: 11px;
+      font-weight: 500;
+      padding: 4px 10px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-muted);
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+
+    .pill:hover { border-color: var(--text-muted); color: var(--text); }
+
+    .pill.active {
+      background: var(--accent-dim);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .section-title {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .section-count {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-sub);
+    }
+
+    /* Tool Grid */
+    .tool-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 12px;
+    }
+
+    /* Tool Card */
+    .tool-card {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      color: inherit;
+      transition: background 0.15s, border-color 0.15s, transform 0.12s, box-shadow 0.15s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tool-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: var(--radius-lg);
+      opacity: 0;
+      transition: opacity 0.2s;
+      background: radial-gradient(ellipse at 20% 0%, var(--accent-glow) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .tool-card:hover {
+      background: var(--card-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+    }
+
+    .tool-card:hover::before { opacity: 1; }
+
+    .tool-card:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .tool-card.placeholder {
+      border-style: dashed;
+      opacity: 0.45;
+      pointer-events: none;
+    }
+
+    .card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .card-icon-wrap {
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .card-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: -0.1px;
+    }
+
+    .card-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: auto;
+      padding-top: 10px;
+      border-top: 1px solid var(--border-soft);
+    }
+
+    .card-tags { display: flex; gap: 5px; flex-wrap: wrap; }
+
+    .card-arrow {
+      color: var(--text-sub);
+      transition: color 0.15s, transform 0.15s;
+      flex-shrink: 0;
+    }
+
+    .tool-card:hover .card-arrow {
+      color: var(--accent);
+      transform: translateX(2px);
+    }
+
+    .no-results {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 48px 0;
+      color: var(--text-sub);
+      font-size: 13px;
+    }
+
+    .no-results i { font-style: normal; color: var(--text-muted); }
+
+    /* Responsive overrides */
+    @media (max-width: 900px) { .search-wrap { max-width: 220px; } }
+    @media (max-width: 640px) {
+      .search-shortcut { display: none; }
+      .filter-pills { display: none; }
+      .tool-grid { grid-template-columns: 1fr; }
+      .main { padding: 24px 0 48px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="shell">
+      <div class="header-inner">
+
+        <div class="wordmark">
+          Kit<span class="wordmark-accent">.</span><sup id="tool-count">0</sup>
+        </div>
+
+        <div class="search-wrap">
+          <span class="search-icon">
+            <i data-lucide="search" width="14" height="14"></i>
+          </span>
+          <input
+            class="search-input"
+            type="text"
+            id="search"
+            placeholder="Search tools…"
+            autocomplete="off"
+            spellcheck="false"
+          >
+          <span class="search-shortcut">/</span>
+        </div>
+
+        <div class="filter-pills" id="filter-pills"></div>
+
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="shell">
+      <div class="section-header">
+        <span class="section-title">Tools</span>
+        <span class="section-count" id="visible-count"></span>
+      </div>
+      <div class="tool-grid" id="tool-grid"></div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="shell">
+      <div class="footer-inner">
+        <div class="footer-left">kit / local</div>
+        <div class="footer-right">
+          <a href="#">Changelog</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Load order matters: lucide → manifest → hub -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="./assets/manifest.js"></script>
+  <script src="./assets/hub.js"></script>
+
+</body>
+</html>

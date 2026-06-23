@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kit / Animal generator</title>
+  <link rel="stylesheet" href="../../assets/style.css">
+  <link rel="stylesheet" href="./animal-generator.css">
+</head>
+<body>
+
+
+
+  <main class="main">
+    <div class="shell">
+      <div class="tool-wrap">
+
+        <div class="controls">
+          <div class="select-wrap">
+            <select id="category-select">
+              <!-- populated by JS -->
+            </select>
+          </div>
+          <button class="btn-generate" id="generate-btn" disabled>Generate</button>
+        </div>
+
+        <div class="result-card" id="result-card">
+          <div class="result-empty" id="result-empty">Pick a category and generate</div>
+          <div class="result-body">
+            <span class="result-category" id="result-category"></span>
+            <span class="result-name" id="result-name"></span>
+            <span class="result-scientific" id="result-scientific"></span>
+            <div class="result-meta">
+              <span class="status-dot" id="status-dot"></span>
+              <span class="status-label" id="status-label"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="result-footer" id="result-footer" style="display:none">
+          <button class="btn-again" id="again-btn">
+            <i data-lucide="shuffle" width="13" height="13"></i>
+            Pick another
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- order matters: header/footer load first, then lucide, then tool js file(s) -->
+  <script src="../../assets/hf.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>document.addEventListener('DOMContentLoaded', () => lucide.createIcons());</script>
+  <script type="module" src="./animal-generator.js"></script>
+
+</body>
+</html>

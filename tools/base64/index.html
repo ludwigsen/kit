@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kit / Base64</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/style.css">
+  <link rel="stylesheet" href="./base64-image.css">
+</head>
+
+<body>
+
+  <main class="main">
+    <div class="shell">
+
+      <!-- Mode toggle -->
+      <div class="mode-bar">
+        <button class="mode-btn active" id="btn-encode" data-mode="encode">
+          <i data-lucide="image" width="14" height="14"></i>
+          Image → Base64
+        </button>
+        <button class="mode-btn" id="btn-decode" data-mode="decode">
+          <i data-lucide="binary" width="14" height="14"></i>
+          Base64 → Image
+        </button>
+      </div>
+
+      <!-- ENCODE PANEL -->
+      <div class="panel" id="panel-encode">
+        <div class="drop-zone" id="drop-zone">
+          <input type="file" id="file-input" accept="image/*" hidden />
+          <div class="drop-icon">
+            <i data-lucide="image-plus" width="32" height="32"></i>
+          </div>
+          <div class="drop-label">Drop an image here</div>
+          <div class="drop-sub">or <button class="inline-link" id="browse-btn">browse files</button></div>
+          <div class="drop-types">PNG · JPG · GIF · WebP · SVG · AVIF</div>
+        </div>
+
+        <div class="encode-result hidden" id="encode-result">
+          <div class="result-header">
+            <div class="result-meta" id="result-meta"></div>
+            <div class="result-actions">
+              <button class="action-btn" id="copy-data-url">
+                <i data-lucide="copy" width="13" height="13"></i>
+                Copy data URL
+              </button>
+              <button class="action-btn" id="copy-raw-b64">
+                <i data-lucide="copy" width="13" height="13"></i>
+                Copy raw base64
+              </button>
+              <button class="action-btn ghost" id="encode-reset">
+                <i data-lucide="x" width="13" height="13"></i>
+                Clear
+              </button>
+            </div>
+          </div>
+
+          <div class="output-split">
+            <div class="preview-col">
+              <div class="col-label">Preview</div>
+              <div class="image-preview-wrap">
+                <img id="preview-img" src="" alt="Preview" />
+              </div>
+            </div>
+            <div class="string-col">
+              <div class="col-label">Output</div>
+              <div class="format-row">
+                <label class="radio-label">
+                  <input type="radio" name="output-format" value="data-url" checked /> Data URL
+                </label>
+                <label class="radio-label">
+                  <input type="radio" name="output-format" value="raw" /> Raw base64
+                </label>
+              </div>
+              <textarea class="b64-output" id="b64-output" readonly spellcheck="false"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DECODE PANEL -->
+      <div class="panel hidden" id="panel-decode">
+        <div class="decode-input-area">
+          <div class="col-label">Paste base64 string or data URL</div>
+          <textarea class="b64-input" id="b64-input" spellcheck="false"
+            placeholder="data:image/png;base64,iVBORw0KGgo… or raw base64"></textarea>
+          <div class="decode-actions">
+            <button class="action-btn primary" id="decode-btn">
+              <i data-lucide="wand-2" width="13" height="13"></i>
+              Decode
+            </button>
+            <button class="action-btn ghost" id="decode-reset">
+              <i data-lucide="x" width="13" height="13"></i>
+              Clear
+            </button>
+          </div>
+        </div>
+
+        <div class="decode-result hidden" id="decode-result">
+          <div class="result-header">
+            <div class="result-meta" id="decode-meta"></div>
+            <div class="result-actions">
+              <button class="action-btn" id="download-btn">
+                <i data-lucide="download" width="13" height="13"></i>
+                Download image
+              </button>
+            </div>
+          </div>
+          <div class="decode-preview-wrap">
+            <img id="decode-preview-img" src="" alt="Decoded image" />
+          </div>
+        </div>
+
+        <div class="decode-error hidden" id="decode-error">
+          <i data-lucide="alert-triangle" width="14" height="14"></i>
+          <span id="decode-error-msg"></span>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- order matters: header/footer load first, then lucide, then tool js file(s) -->
+  <script src="../../assets/hf.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>document.addEventListener('DOMContentLoaded', () => lucide.createIcons());</script>
+  <script src="./base64-image.js"></script>
+</body>
+
+</html>
