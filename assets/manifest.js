@@ -88,6 +88,16 @@ const TOOLS = [
     color: 'icon-yellow',
     path:  './tools/uuid-generator/index.html',
     tags:  ['uuid', 'generator', 'random'],
-    badge: 'soon',
+    badge: 'new',
   },
+  {
+    id:    'sql-formatter',
+    name:  'SQL Formatter',
+    desc:  'Format and clean up SQL with configurable dialect, keyword casing, and indent.',
+    icon:  'database',
+    color: 'icon-blue',
+    path:  './tools/sql-formatter/index.html',
+    tags:  ['sql', 'format', 'dev'],
+    badge: 'new',
+  }
 ];

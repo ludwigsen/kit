@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kit / UUID Generator</title>
+  <link rel="stylesheet" href="../../assets/style.css">
+  <link rel="stylesheet" href="./uuid-generator.css">
+</head>
+<body>
+
+  <main class="main">
+    <div class="shell">
+
+      <div class="controls-row">
+        <div class="control-group">
+          <label class="control-label">Version</label>
+          <div class="seg-group" id="version-seg">
+            <button class="seg active" data-value="4">v4</button>
+            <button class="seg" data-value="1">v1</button>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">Case</label>
+          <div class="seg-group" id="case-seg">
+            <button class="seg active" data-value="lower">lowercase</button>
+            <button class="seg" data-value="upper">UPPERCASE</button>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">Hyphens</label>
+          <div class="seg-group" id="hyphens-seg">
+            <button class="seg active" data-value="yes">yes</button>
+            <button class="seg" data-value="no">no</button>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">Count</label>
+          <div class="count-row">
+            <button class="count-btn" id="count-dec" aria-label="Decrease count">
+              <i data-lucide="minus" width="12" height="12"></i>
+            </button>
+            <span class="count-val" id="count-display">1</span>
+            <button class="count-btn" id="count-inc" aria-label="Increase count">
+              <i data-lucide="plus" width="12" height="12"></i>
+            </button>
+          </div>
+        </div>
+
+        <button class="btn-generate" id="btn-generate">
+          <i data-lucide="refresh-cw" width="14" height="14"></i>
+          Generate
+        </button>
+      </div>
+
+      <div class="output-area" id="output-area">
+        <div class="output-placeholder">
+          <i data-lucide="fingerprint" width="28" height="28"></i>
+          <span>Hit Generate to produce UUIDs</span>
+        </div>
+      </div>
+
+      <div class="action-row" id="action-row" style="display:none;">
+        <button class="btn-action" id="btn-copy-all">
+          <i data-lucide="copy" width="13" height="13"></i>
+          Copy all
+        </button>
+        <button class="btn-action" id="btn-regenerate">
+          <i data-lucide="refresh-cw" width="13" height="13"></i>
+          Regenerate
+        </button>
+        <span class="result-meta" id="result-meta"></span>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- order matters: header/footer load first, then lucide, then tool js file(s) -->
+  <script src="../../assets/hf.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>document.addEventListener('DOMContentLoaded', () => lucide.createIcons());</script>
+  <script src="./uuid-generator.js"></script>
+
+</body>
+</html>

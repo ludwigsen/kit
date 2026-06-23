@@ -1,0 +1,257 @@
+/* ── Layout ─────────────────────────────────────────── */
+.main {
+  padding: 2.5rem 0 4rem;
+}
+
+/* ── Controls row ───────────────────────────────────── */
+.controls-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.25rem;
+}
+
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.control-label {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+
+/* ── Segmented controls ─────────────────────────────── */
+.seg-group {
+  display: flex;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--surface);
+}
+
+.seg {
+  padding: 0.4rem 0.85rem;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+  white-space: nowrap;
+}
+
+.seg:not(:last-child) {
+  border-right: 1px solid var(--border);
+}
+
+.seg:hover:not(.active) {
+  background: var(--card);
+  color: var(--text);
+}
+
+.seg.active {
+  background: var(--accent-dim);
+  color: var(--accent);
+}
+
+/* ── Count control ──────────────────────────────────── */
+.count-row {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--surface);
+  height: 30px;
+}
+
+.count-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 100%;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+}
+
+.count-btn:hover {
+  background: var(--card);
+  color: var(--text);
+}
+
+.count-val {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text);
+  min-width: 2rem;
+  text-align: center;
+  border-left: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  padding: 0 0.25rem;
+  line-height: 28px;
+}
+
+/* ── Generate button ────────────────────────────────── */
+.btn-generate {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 1rem;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.12s, transform 0.08s;
+  height: 30px;
+  white-space: nowrap;
+}
+
+.btn-generate:hover {
+  opacity: 0.88;
+}
+
+.btn-generate:active {
+  transform: scale(0.97);
+}
+
+/* ── Output area ────────────────────────────────────── */
+.output-area {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  min-height: 160px;
+  padding: 1rem;
+  position: relative;
+}
+
+.output-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  height: 130px;
+  color: var(--text-sub);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+}
+
+.output-placeholder i {
+  color: var(--text-sub);
+  opacity: 0.5;
+}
+
+/* ── UUID rows ──────────────────────────────────────── */
+.uuid-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.uuid-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.55rem 0.25rem;
+  border-bottom: 1px solid var(--border-soft);
+  transition: background 0.1s;
+  border-radius: 4px;
+}
+
+.uuid-row:last-child {
+  border-bottom: none;
+}
+
+.uuid-row:hover {
+  background: var(--card);
+  cursor: pointer;
+}
+
+.uuid-row:hover .uuid-copy-hint {
+  opacity: 1;
+}
+
+.uuid-value {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text);
+  letter-spacing: 0.01em;
+  word-break: break-all;
+  flex: 1;
+}
+
+.uuid-copy-hint {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: var(--accent);
+  opacity: 0;
+  transition: opacity 0.15s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.uuid-row.copied .uuid-value {
+  color: var(--green);
+}
+
+.uuid-row.copied .uuid-copy-hint {
+  color: var(--green);
+  opacity: 1;
+}
+
+/* ── Action row ─────────────────────────────────────── */
+.action-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 0.75rem;
+}
+
+.btn-action {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.75rem;
+  background: var(--card);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+}
+
+.btn-action:hover {
+  background: var(--card-hover);
+  color: var(--text);
+}
+
+.result-meta {
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  color: var(--text-sub);
+}
