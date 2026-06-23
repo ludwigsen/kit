@@ -1,31 +1,4 @@
-/* ── Tokens ── */
-    :root {
-      --bg:        #0f1117;
-      --surface:   #181c25;
-      --border:    #2a2f3d;
-      --border-hi: #3d4459;
-      --text:      #e2e6f0;
-      --muted:     #6b7394;
-      --accent:    #5b8af5;
-      --accent-dk: #3d6be0;
-      --success:   #3ecf8e;
-      --warn:      #f5a524;
-      --danger:    #f05252;
-      --mono:      'JetBrains Mono', 'Fira Mono', 'Cascadia Code', monospace;
-      --sans:      'Inter', system-ui, sans-serif;
-      --radius:    6px;
-    }
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: var(--sans);
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      font-size: 14px;
-      line-height: 1.5;
-    }
 
     /* ── Nav bar ── */
     .nav {
