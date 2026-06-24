@@ -1,10 +1,11 @@
+// this script is injected into every page to build the header and footer
 document.addEventListener('DOMContentLoaded', () => {
     const main = document.querySelector('main');
     const body = document.querySelector('body');
     if (!main || !body) return;
 
-    // --- Derive wordmark from <title> ---
-    // Expected title formats: "Kit" or "Kit / Tool Name"
+    // derive wordmark from <title>
+    // expected title formats: "Kit" or "Kit / Tool Name"
     const titleParts = (document.title || 'Kit').split(' / ');
     const isRoot = titleParts.length < 2;
     const toolName = isRoot ? null : titleParts.slice(1).join(' / ');
@@ -15,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
            <span class="wordmark-sep">/</span>
            <span class="wordmark-page">${toolName}</span>`;
 
-    // --- Derive footer slug from pathname ---
+    // derive footer slug from pathname
     // e.g. /tools/animal-generator/index.html → "kit / animal-generator"
     const pathParts = location.pathname.replace(/\/index\.html$/, '').split('/').filter(Boolean);
     const toolIndex = pathParts.indexOf('tools');
@@ -23,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ? `kit / ${pathParts[toolIndex + 1]}`
         : 'kit';
 
-    // --- Back link: root pages don't need it ---
+    // back link (root pages don't need it)
     const backLinkHTML = isRoot
         ? ''
         : `<a class="back-link" href="../../index.html">
@@ -31,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
              All tools
            </a>`;
 
-    // --- Build header ---
+    // build header
     const header = document.createElement('header');
     header.className = 'header';
     header.innerHTML = `
@@ -42,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
           </div>
         </div>`;
 
-    // --- Build footer ---
+    // build footer
     const footer = document.createElement('footer');
     footer.className = 'footer';
     footer.innerHTML = `
@@ -52,6 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
           </div>
         </div>`;
 
+    // insert header and footer into the page
     body.insertBefore(header, main);
     body.appendChild(footer);
 });

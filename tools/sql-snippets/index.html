@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kit / SQL Snippets</title>
+  <link rel="stylesheet" href="../../assets/style.css">
+  <link rel="stylesheet" href="./sql-snippets.css">
+</head>
+<body>
+
+  <main class="main">
+    <div class="shell">
+
+      <div class="controls">
+        <div class="search-wrap">
+          <i data-lucide="search" width="14" height="14" class="search-icon"></i>
+          <input
+            type="text"
+            id="search"
+            class="search-input"
+            placeholder="Search snippets…"
+            autocomplete="off"
+            spellcheck="false"
+          >
+          <button class="search-clear" id="search-clear" title="Clear search" hidden>
+            <i data-lucide="x" width="12" height="12"></i>
+          </button>
+        </div>
+        <div class="filter-bar" id="filter-bar">
+          <!-- Category buttons injected by JS -->
+        </div>
+      </div>
+
+      <div class="results-meta" id="results-meta"></div>
+
+      <div class="snippet-grid" id="snippet-grid">
+        <!-- Cards injected by JS -->
+      </div>
+
+      <div class="empty-state" id="empty-state" hidden>
+        <i data-lucide="search-x" width="28" height="28"></i>
+        <p>No snippets match your search.</p>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- order matters: header/footer load first, then lucide, then tool js file(s) -->
+  <script src="../../assets/hf.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="./snippets.js"></script>
+  <script>document.addEventListener('DOMContentLoaded', () => lucide.createIcons());</script>
+  <script src="./sql-snippets.js"></script>
+</body>
+</html>

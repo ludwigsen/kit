@@ -2,11 +2,15 @@
  * KIT — Animal Generator
  * Reads animals.json, populates the category dropdown, picks at random.
  */
-import { animals } from './animals.js' assert { type: "json" };
 
 document.addEventListener('DOMContentLoaded', () => {
 
+    if (!window.ANIMALS) {
+        console.error('[animal-generator] animals.js not loaded or missing exports.');
+        return;
+    }
 
+    const animals = window.ANIMALS;
 
     // =====================
     //  STATE
@@ -18,16 +22,16 @@ document.addEventListener('DOMContentLoaded', () => {
     //  DOM REFS
     // =====================
     const categorySelect = document.getElementById('category-select');
-    const generateBtn    = document.getElementById('generate-btn');
-    const againBtn       = document.getElementById('again-btn');
-    const resultCard     = document.getElementById('result-card');
-    const resultFooter   = document.getElementById('result-footer');
-    const resultEmpty    = document.getElementById('result-empty');
+    const generateBtn = document.getElementById('generate-btn');
+    const againBtn = document.getElementById('again-btn');
+    const resultCard = document.getElementById('result-card');
+    const resultFooter = document.getElementById('result-footer');
+    const resultEmpty = document.getElementById('result-empty');
     const resultCategory = document.getElementById('result-category');
-    const resultName     = document.getElementById('result-name');
-    const resultSci      = document.getElementById('result-scientific');
-    const statusDot      = document.getElementById('status-dot');
-    const statusLabel    = document.getElementById('status-label');
+    const resultName = document.getElementById('result-name');
+    const resultSci = document.getElementById('result-scientific');
+    const statusDot = document.getElementById('status-dot');
+    const statusLabel = document.getElementById('status-label');
 
     // =====================
     //  LOAD JSON

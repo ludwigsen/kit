@@ -1,5 +1,5 @@
 // animals.js
-export const animals = [
+window.ANIMALS = [
 {
   "Carnivores": [
     {
