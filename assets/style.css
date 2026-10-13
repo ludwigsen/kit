@@ -33,7 +33,7 @@
   --radius-lg: 12px;
 
   --mono: 'JetBrains Mono', 'Fira Code', monospace;
-  --sans: 'Google Sans', sans-serif;
+  --sans: 'Manrope', sans-serif;
 }
 
 /* =====================
@@ -299,3 +299,30 @@ button {
     animation: none !important;
   }
 }
+
+/* Appearance tokens. Legacy tool CSS reads these variables; new UI can use Tailwind utilities. */
+:root {
+  --bg: #17191d;
+  --surface: #1e2126;
+  --card: #252a31;
+  --card-hover: #2d333c;
+  --border: #383f49;
+  --border-soft: #303640;
+  --text: #eef1f5;
+  --text-muted: #a4adba;
+  --text-sub: #77818f;
+}
+:root[data-theme="light"] {
+  --bg: #f5f6f8;
+  --surface: #ffffff;
+  --card: #ffffff;
+  --card-hover: #f0f2f5;
+  --border: #d8dde5;
+  --border-soft: #e5e8ee;
+  --text: #202630;
+  --text-muted: #596372;
+  --text-sub: #7b8491;
+}
+body { background: var(--bg); color: var(--text); }
+.header { background: color-mix(in srgb, var(--bg) 90%, transparent); }
+input, textarea, select { color: var(--text); }
