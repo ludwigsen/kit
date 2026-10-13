@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kit</title>
   <link rel="stylesheet" href="./assets/style.css">
+  <script src="./assets/theme.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <style>
     /* =====================
        HUB-ONLY STYLES
@@ -244,7 +247,7 @@
 
   <header class="header">
     <div class="shell">
-      <div class="header-inner">
+      <div class="header-inner" x-data="kitTheme">
 
         <div class="wordmark">
           Kit<span class="wordmark-accent">.</span><sup id="tool-count">0</sup>
@@ -266,6 +269,16 @@
         </div>
 
         <div class="filter-pills" id="filter-pills"></div>
+        <div class="kit-appearance">
+          <button class="appearance-mode" type="button" @click="toggleMode()" :aria-label="mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'" :title="mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'">
+            <span x-text="mode === 'dark' ? '☼' : '☾'" aria-hidden="true"></span>
+            <span class="appearance-mode-label" x-text="mode === 'dark' ? 'Dark' : 'Light'"></span>
+          </button>
+          <label class="sr-only" for="kit-palette">Color theme</label>
+          <select id="kit-palette" class="appearance-palette" :value="palette" @change="setPalette($event.target.value)">
+            <template x-for="item in palettes" :key="item.value"><option :value="item.value" x-text="item.label"></option></template>
+          </select>
+        </div>
 
       </div>
     </div>
