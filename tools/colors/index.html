@@ -1,132 +1,167 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Kit / Colors</title>
-  <link rel="stylesheet" href="../../assets/style.css">
-  <link rel="stylesheet" href="./colors.css">
-  <script src="../../assets/theme.js"></script>
+
   <script src="https://cdn.tailwindcss.com"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="../../assets/hf.js"></script>
 </head>
-<body>
+<body class="min-h-screen bg-stone-950 text-stone-100 antialiased">
+  <main x-data="colorTool()" class="mx-auto max-w-5xl px-4 py-8 sm:px-6">
+    <header class="mb-6">
+      <h1 class="text-2xl font-semibold tracking-tight">Colors</h1>
+      <p class="mt-1 text-sm text-stone-400">Pick, adjust, compare, and save colors.</p>
+    </header>
 
-  <main class="main">
+    <div class="grid gap-4 md:grid-cols-2">
+      <section class="rounded-xl border border-stone-800 bg-stone-900 p-5">
+        <h2 class="mb-4 text-xs font-semibold uppercase tracking-widest text-stone-400">Color picker</h2>
+        <div class="mb-5 flex items-center gap-4">
+          <div class="h-16 w-16 shrink-0 rounded-lg border border-white/10" :style="'background:'+hex"></div>
+          <div class="min-w-0">
+            <div class="font-mono text-xl font-semibold" x-text="hex.toUpperCase()"></div>
+            <div class="mt-1 font-mono text-xs text-stone-400" x-text="'hsl('+h+', '+s+'%, '+l+'%)'"></div>
+          </div>
+          <input aria-label="Choose color" type="color" class="ml-auto h-10 w-12 cursor-pointer rounded border-0 bg-transparent" :value="hex" @input="setHex($event.target.value)">
+        </div>
 
-<div class="page">
-  <div class="grid">
+        <label class="mb-1 block text-xs text-stone-400" for="hex">HEX</label>
+        <div class="mb-3 flex gap-2">
+          <input id="hex" x-model="hexDraft" @change="setHex(hexDraft)" class="min-w-0 flex-1 rounded-lg border border-stone-700 bg-stone-950 px-3 py-2 font-mono text-sm outline-none focus:border-amber-400" maxlength="7" spellcheck="false">
+          <button @click="copy(hex)" class="rounded-lg border border-stone-700 px-3 text-sm hover:border-amber-400">Copy</button>
+        </div>
+        <div class="space-y-3">
+          <div class="flex items-center gap-3"><span class="w-9 text-xs text-stone-400">RGB</span><code class="min-w-0 flex-1 font-mono text-sm" x-text="rgbText"></code><button @click="copy(rgbText)" class="text-xs text-stone-400 hover:text-white">Copy</button></div>
+          <div class="flex items-center gap-3"><span class="w-9 text-xs text-stone-400">HSL</span><code class="min-w-0 flex-1 font-mono text-sm" x-text="hslText"></code><button @click="copy(hslText)" class="text-xs text-stone-400 hover:text-white">Copy</button></div>
+          <div class="flex items-center gap-3"><span class="w-9 text-xs text-stone-400">CSS</span><code class="min-w-0 flex-1 break-all font-mono text-sm" x-text="cssText"></code><button @click="copy(cssText)" class="text-xs text-stone-400 hover:text-white">Copy</button></div>
+        </div>
+        <p x-show="error" x-text="error" class="mt-3 text-sm text-red-400" role="alert"></p>
+      </section>
 
-    <!-- LEFT: Picker + converter -->
-    <div>
-      <div class="card">
-        <div class="card-title">Picker</div>
+      <section class="rounded-xl border border-stone-800 bg-stone-900 p-5">
+        <h2 class="mb-4 text-xs font-semibold uppercase tracking-widest text-stone-400">Adjust</h2>
+        <template x-for="item in [{key:'h',label:'Hue',max:360},{key:'s',label:'Saturation',max:100},{key:'l',label:'Lightness',max:100}]" :key="item.key">
+          <label class="mb-4 flex items-center gap-3 text-sm">
+            <span class="w-20 text-stone-400" x-text="item.label"></span>
+            <input class="min-w-0 flex-1 accent-amber-400" type="range" min="0" :max="item.max" x-model.number="windowValue[item.key]" @input="setHsl()" :aria-label="item.label">
+            <span class="w-10 text-right font-mono text-xs" x-text="windowValue[item.key]"></span>
+          </label>
+        </template>
 
-        <div class="swatch-row">
-          <div class="swatch" id="mainSwatch"></div>
-          <div class="swatch-meta">
-            <div class="swatch-hex" id="swatchHex">#5B8AF5</div>
-            <div class="swatch-hsl" id="swatchHsl">hsl(225, 88%, 64%)</div>
+        <div class="mt-6 border-t border-stone-800 pt-5">
+          <h2 class="mb-3 text-xs font-semibold uppercase tracking-widest text-stone-400">Contrast checker</h2>
+          <label class="mb-2 block text-xs text-stone-400" for="background">Background color</label>
+          <div class="mb-4 flex gap-2">
+            <input id="background" x-model="bgDraft" @change="setBackground(bgDraft)" class="min-w-0 flex-1 rounded-lg border border-stone-700 bg-stone-950 px-3 py-2 font-mono text-sm outline-none focus:border-amber-400" maxlength="7">
+            <input type="color" aria-label="Choose background color" class="h-10 w-12 cursor-pointer rounded bg-transparent" :value="background" @input="setBackground($event.target.value)">
+          </div>
+          <div class="overflow-hidden rounded-lg border border-stone-700">
+            <div class="flex h-16 items-center justify-center text-xl font-semibold" :style="'background:'+background+';color:'+hex">Aa Sample text</div>
+            <div class="flex flex-wrap items-center justify-between gap-3 bg-stone-950 px-3 py-3">
+              <span class="font-mono text-lg font-semibold" x-text="ratio.toFixed(2)+':1'"></span>
+              <div class="flex gap-2 text-xs font-semibold">
+                <span class="rounded px-2 py-1" :class="ratio>=7?'bg-emerald-950 text-emerald-300':'bg-red-950 text-red-300'">AAA <span x-text="ratio>=7?'Pass':'Fail'"></span></span>
+                <span class="rounded px-2 py-1" :class="ratio>=4.5?'bg-emerald-950 text-emerald-300':'bg-red-950 text-red-300'">AA <span x-text="ratio>=4.5?'Pass':'Fail'"></span></span>
+                <span class="rounded px-2 py-1" :class="ratio>=3?'bg-emerald-950 text-emerald-300':'bg-red-950 text-red-300'">AA Large <span x-text="ratio>=3?'Pass':'Fail'"></span></span>
+              </div>
+            </div>
           </div>
         </div>
+      </section>
+    </div>
 
-        <div class="picker-wrap">
-          <input type="color" id="colorPicker" value="#5b8af5" />
-          <span style="font-size:12px;color:var(--muted)">Native picker</span>
-        </div>
-
-        <hr class="divider" />
-        <div class="card-title">Convert</div>
-
-        <div class="field-row">
-          <span class="field-label">HEX</span>
-          <input class="field-input" id="hexInput" type="text" value="#5b8af5" placeholder="#rrggbb" maxlength="7" spellcheck="false" />
-          <button class="btn-copy" data-copy="hex">Copy</button>
-        </div>
-        <div class="field-row">
-          <span class="field-label">RGB</span>
-          <input class="field-input" id="rgbInput" type="text" placeholder="91, 138, 245" spellcheck="false" />
-          <button class="btn-copy" data-copy="rgb">Copy</button>
-        </div>
-        <div class="field-row">
-          <span class="field-label">HSL</span>
-          <input class="field-input" id="hslInput" type="text" placeholder="225, 88%, 64%" spellcheck="false" />
-          <button class="btn-copy" data-copy="hsl">Copy</button>
-        </div>
-        <div class="field-row">
-          <span class="field-label">CSS</span>
-          <input class="field-input" id="cssInput" type="text" placeholder="hsl(225, 88%, 64%)" spellcheck="false" />
-          <button class="btn-copy" data-copy="css">Copy</button>
-        </div>
+    <section class="mt-4 rounded-xl border border-stone-800 bg-stone-900 p-5">
+      <div class="mb-4 flex items-center justify-between gap-3">
+        <h2 class="text-xs font-semibold uppercase tracking-widest text-stone-400">Tints &amp; shades</h2>
+        <span class="text-xs text-stone-500">Select a swatch to load it</span>
       </div>
-    </div>
-
-    <!-- RIGHT: Sliders + contrast -->
-    <div style="display:flex;flex-direction:column;gap:16px;">
-      <div class="card">
-        <div class="card-title">Adjust</div>
-        <div class="slider-group">
-          <div class="slider-row">
-            <span class="field-label">H</span>
-            <input type="range" id="sliderH" min="0" max="360" step="1" value="225" style="background:linear-gradient(to right,#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00)" />
-            <span class="slider-val" id="valH">225</span>
-          </div>
-          <div class="slider-row">
-            <span class="field-label">S</span>
-            <input type="range" id="sliderS" min="0" max="100" step="1" value="88" />
-            <span class="slider-val" id="valS">88</span>
-          </div>
-          <div class="slider-row">
-            <span class="field-label">L</span>
-            <input type="range" id="sliderL" min="0" max="100" step="1" value="64" />
-            <span class="slider-val" id="valL">64</span>
-          </div>
-        </div>
-
-        <hr class="divider" />
-        <div class="card-title">Contrast vs</div>
-        <div class="field-row">
-          <input class="field-input" id="bgInput" type="text" value="#0f1117" placeholder="Background hex" spellcheck="false" />
-          <input type="color" id="bgPicker" value="#0f1117" style="width:36px;height:34px;flex-shrink:0;border:1px solid var(--border-hi);border-radius:var(--radius);background:var(--bg);padding:2px;cursor:pointer;" />
-        </div>
-        <div class="contrast-block">
-          <div class="contrast-preview" id="contrastPreview">Aa</div>
-          <div class="contrast-meta">
-            <span class="contrast-ratio" id="contrastRatio">—</span>
-            <div class="wcag-badges" id="wcagBadges"></div>
-          </div>
-        </div>
+      <div class="grid grid-cols-5 gap-2 sm:grid-cols-10">
+        <template x-for="light in [95,85,75,65,55,45,35,25,15,8]" :key="light">
+          <button @click="windowValue.l=light;setHsl()" class="group overflow-hidden rounded-lg border border-white/10 text-left focus:outline-none focus:ring-2 focus:ring-amber-400" :title="tintHex(light).toUpperCase()">
+            <div class="h-12 sm:h-16" :style="'background:'+tintHex(light)"></div>
+            <div class="bg-stone-950 px-1 py-2 text-center font-mono text-xs text-stone-400" x-text="light+'%'"></div>
+          </button>
+        </template>
       </div>
-    </div>
-  </div>
+    </section>
 
-  <!-- Tints & Shades — full width -->
-  <div class="card" style="margin-top:16px;">
-    <div class="card-title">Tints &amp; Shades — click to load</div>
-    <div class="scale-row" id="scaleRow"></div>
-    <div class="scale-label" id="scaleLabels"></div>
-  </div>
-
-  <!-- Saved palette — full width -->
-  <div class="card" style="margin-top:16px;">
-    <div class="palette-header">
-      <span class="card-title" style="margin-bottom:0">Saved Colors</span>
-      <button class="btn-save" id="btnSave">+ Save current</button>
-    </div>
-    <div class="palette-grid" id="paletteGrid">
-      <span class="palette-empty" id="paletteEmpty">No saved colors yet.</span>
-    </div>
-  </div>
-</div>
-
-<div class="toast" id="toast"></div>
+    <section class="mt-4 rounded-xl border border-stone-800 bg-stone-900 p-5">
+      <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
+        <h2 class="text-xs font-semibold uppercase tracking-widest text-stone-400">Saved colors</h2>
+        <button @click="save()" class="rounded-lg bg-amber-400 px-3 py-2 text-sm font-semibold text-stone-950 hover:bg-amber-300">+ Save current</button>
+      </div>
+      <p x-show="saved.length===0" class="py-3 text-sm text-stone-500">No saved colors yet.</p>
+      <div class="flex flex-wrap gap-2">
+        <template x-for="(color,index) in saved" :key="color">
+          <div class="flex items-center gap-2 rounded-lg border border-stone-700 bg-stone-950 py-1.5 pl-2 pr-1">
+            <button class="flex items-center gap-2" @click="setHex(color)" :aria-label="'Load '+color">
+              <span class="h-5 w-5 rounded border border-white/10" :style="'background:'+color"></span>
+              <span class="font-mono text-xs" x-text="color.toUpperCase()"></span>
+            </button>
+            <button @click="remove(index)" class="px-1 text-stone-500 hover:text-red-400" :aria-label="'Remove '+color">×</button>
+          </div>
+        </template>
+      </div>
+      <p x-show="notice" x-text="notice" class="mt-3 text-sm text-amber-300" role="status"></p>
+    </section>
   </main>
 
-  <!-- order matters: header/footer load first, then lucide, then tool js file(s) -->
-  <script src="../../assets/hf.js"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <script>document.addEventListener('DOMContentLoaded', () => lucide.createIcons());</script>
-  <script type="text/javascript" src="./colors.js"></script>
-
+  <script>
+    function colorTool() {
+      const toHex = ({r,g,b}) => '#' + [r,g,b].map(v => Math.round(v).toString(16).padStart(2,'0')).join('');
+      const fromHex = value => {
+        let valueClean = value.trim().replace(/^#/, '');
+        if (/^[0-9a-f]{3}$/i.test(valueClean)) valueClean = valueClean.split('').map(c=>c+c).join('');
+        if (!/^[0-9a-f]{6}$/i.test(valueClean)) return null;
+        const n = parseInt(valueClean,16);
+        return {r:(n>>16)&255,g:(n>>8)&255,b:n&255};
+      };
+      const toHsl = ({r,g,b}) => {
+        r/=255; g/=255; b/=255;
+        const max=Math.max(r,g,b), min=Math.min(r,g,b), d=max-min;
+        let h=0, s=0, l=(max+min)/2;
+        if (d) {
+          s=d/(1-Math.abs(2*l-1));
+          if(max===r) h=60*(((g-b)/d)%6);
+          else if(max===g) h=60*((b-r)/d+2);
+          else h=60*((r-g)/d+4);
+        }
+        return {h:Math.round((h+360)%360),s:Math.round(s*100),l:Math.round(l*100)};
+      };
+      const toRgb = (h,s,l) => {
+        s/=100; l/=100;
+        const c=(1-Math.abs(2*l-1))*s, x=c*(1-Math.abs((h/60)%2-1)), m=l-c/2;
+        let r=0,g=0,b=0;
+        if(h<60){r=c;g=x;} else if(h<120){r=x;g=c;} else if(h<180){g=c;b=x;} else if(h<240){g=x;b=c;} else if(h<300){r=x;b=c;} else {r=c;b=x;}
+        return {r:Math.round((r+m)*255),g:Math.round((g+m)*255),b:Math.round((b+m)*255)};
+      };
+      const luminance = ({r,g,b}) => [r,g,b].map(v=>{v/=255;return v<=0.04045?v/12.92:Math.pow((v+0.055)/1.055,2.4);}).reduce((sum,v,i)=>sum+v*[0.2126,0.7152,0.0722][i],0);
+      return {
+        windowValue:{h:225,s:88,l:64}, hex:'#5b8af5', hexDraft:'#5B8AF5',
+        background:'#0f1117',bgDraft:'#0F1117',saved:[],error:'',notice:'',
+        init() {
+          try { const stored=JSON.parse(localStorage.getItem('kit-colors')||'[]'); this.saved=Array.isArray(stored)?stored.filter(c=>fromHex(c)):[]; } catch { this.saved=[]; }
+          this.sync();
+        },
+        get rgb(){return toRgb(this.windowValue.h,this.windowValue.s,this.windowValue.l);},
+        get rgbText(){const c=this.rgb;return c.r+', '+c.g+', '+c.b;},
+        get hslText(){const c=this.windowValue;return c.h+', '+c.s+'%, '+c.l+'%';},
+        get cssText(){return 'hsl('+this.hslText+')';},
+        get ratio(){const a=luminance(this.rgb),b=luminance(fromHex(this.background));return (Math.max(a,b)+0.05)/(Math.min(a,b)+0.05);},
+        sync(){this.hex=toHex(this.rgb);this.hexDraft=this.hex.toUpperCase();this.error='';},
+        setHex(value){const rgb=fromHex(value);if(!rgb){this.error='Enter a valid HEX color, such as #5B8AF5.';return;}this.windowValue=toHsl(rgb);this.sync();},
+        setHsl(){this.windowValue.h=((Number(this.windowValue.h)%360)+360)%360;this.windowValue.s=Math.max(0,Math.min(100,Number(this.windowValue.s)));this.windowValue.l=Math.max(0,Math.min(100,Number(this.windowValue.l)));this.sync();},
+        tintHex(light){return toHex(toRgb(this.windowValue.h,this.windowValue.s,light));},
+        setBackground(value){if(!fromHex(value)){this.notice='';return;}this.background=toHex(fromHex(value));this.bgDraft=this.background.toUpperCase();},
+        async copy(value){try{await navigator.clipboard.writeText(value);this.notice='Copied '+value;setTimeout(()=>{this.notice='';},1600);}catch{this.notice='Clipboard access is unavailable in this browser.';}},
+        save(){if(this.saved.includes(this.hex)){this.notice=this.hex.toUpperCase()+' is already saved.';return;}this.saved.push(this.hex);this.persist();this.notice='Saved '+this.hex.toUpperCase();},
+        remove(index){this.saved.splice(index,1);this.persist();},
+        persist(){try{localStorage.setItem('kit-colors',JSON.stringify(this.saved));}catch{this.notice='Could not save colors in this browser.';}}
+      };
+    }
+  </script>
 </body>
 </html>
