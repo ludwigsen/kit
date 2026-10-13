@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ? 'Kit<span class="wordmark-accent">.</span>'
     : `Kit<span class="wordmark-accent">.</span><span class="wordmark-sep">/</span><span class="wordmark-page">${toolName}</span>`;
 
-  const pathParts = location.pathname.replace(/\\/index\\.html$/, '').split('/').filter(Boolean);
+  const pathParts = location.pathname.replace(/\/index\.html$/, '').split('/').filter(Boolean);
   const toolIndex = pathParts.indexOf('tools');
   const footerSlug = toolIndex !== -1 && pathParts[toolIndex + 1] ? `kit / ${pathParts[toolIndex + 1]}` : 'kit';
   const backLinkHTML = isRoot ? '' : `<a class="back-link" href="../../index.html"><i data-lucide="arrow-left" width="13" height="13"></i>All tools</a>`;
