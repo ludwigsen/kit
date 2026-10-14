@@ -37,5 +37,9 @@ document.addEventListener('DOMContentLoaded', () => {
   footer.innerHTML = `<div class="shell"><div class="footer-inner"><div class="footer-left">${footerSlug}</div><div class="footer-right">Tailwind CSS · Alpine.js</div></div></div>`;
   body.insertBefore(header, main);
   body.appendChild(footer);
+
+  // Alpine starts before DOMContentLoaded, so explicitly initialize the
+  // dynamically injected header (including its theme controls).
+  if (window.Alpine) window.Alpine.initTree(header);
   if (window.lucide) window.lucide.createIcons();
 });
